@@ -32,3 +32,19 @@ resource "azurerm_linux_virtual_machine" "ubuntu" {
     version   = "latest"
   }
 }
+
+resource "azurerm_virtual_machine_extension" "ad_login_extension" {
+  name                       = "AADSSHLoginForLinux"
+  virtual_machine_id         = azurerm_linux_virtual_machine.ubuntu.id
+  publisher                  = "Microsoft.Azure.ActiveDirectory"
+  type                       = "AADSSHLoginForLinux"
+  type_handler_version       = "1.0"
+  auto_upgrade_minor_version = true
+}
+
+resource "azurerm_role_assignment" "vmlogin" {
+  scope                = azurerm_linux_virtual_machine.ubuntu.id
+  role_definition_name = "Virtual Machine Administrator Login"
+  principal_id         = data.azurerm_client_config.current.object_id
+
+}
