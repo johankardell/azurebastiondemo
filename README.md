@@ -26,3 +26,9 @@ az network bastion tunnel --name "bastion" --resource-group "bastion-demo" --tar
 
 ssh adminuser@localhost -p 1337
 ```
+
+scp files:
+```
+Upload: scp -P 1337 test.json adminuser@127.0.0.1:~/test.json
+Download: scp -P 1337 adminuser@127.0.0.1:~/test.json test.json
+```
